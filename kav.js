@@ -1,46 +1,50 @@
 var kav = function () {
-  var list = [];
-  var ids = [];
+  var group = {list: [],
+               ids: []}
   return {
-    getList: function () {
-      return list;
+    __sortById: function (personA, personb) {
+      return personA.id - personB.id;
+      },
+    getGroup: function () {
+      return group;
+      },
+    addShift: function (id, shift) {
+      if (!group.list[id].shift) {
+        group.list[id].shift = [];
+        }
       },
     addPerson: function (person) {
       if (!person.id) {
         return {name: "error",
-                message: "person must have id"};
+                message: "person must have id",
+                object: person};
       }
-      if (ids.indexOf(person.id !== -1)) {
+      if (group.ids.indexOf(person.id) !== -1) {
         return {name: "error",
-                message: "id not unique"};
+                message: "id not unique",
+                object: person};
       }
-      list.push(person);
-      ids.push(person.id);
+      group.list.push(person);
+      group.ids.push(person.id);
       return 0;
       },
     removePerson: function (id) {
       var i = 0,
           j = 0;
-      for (i = 0; i < list.length; i = i +1) {
-        if (list[i].id === id) {
-          list.splice (i, 1);
-          for (j = 0; j < ids.length; j = j + 1) {
-            if (ids[j] === id) {
-              ids.splice(j, 1);
+      for (i = 0; i < group.list.length; i = i +1) {
+        if (group.list[i].id === id) {
+          group.list.splice (i, 1);
+          for (j = 0; j < group.ids.length; j = j + 1) {
+            if (group.ids[j] === id) {
+              group.ids.splice(j, 1);
             }
           }
         }
       }
-    },
-    __getIds: function () {
-      return ids;
     }
   }
 }();
 
-kav.addPerson({id:1});
-kav.addPerson({id:2});
-kav.addPerson({id:3});
-kav.removePerson(2);
-console.log(kav.getList());
-console.log(kav.__getIds());
+console.log(kav.addPerson({id:1}));
+console.log(kav.addShift(0, {start: Date.parse("Thu, 01 Jan 1970 00:00:00 GMT-0400")}));
+console.log(kav.getGroup());
