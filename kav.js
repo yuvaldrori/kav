@@ -18,6 +18,12 @@ var kav = function () {
       return group;
     },
     addShift: function (id, shift) {
+      if ((shift.start - shift.end) < 0) {
+        return {name: "error",
+                message: "start time " + shift.start.toLocalString() +
+                         " cannot be later then end time " +
+                         shift.end.toLocalString()};
+      };
       var index = indexOfPerson(id);
       if (index !== -1) {
         if (!group.list[index].shift) {
@@ -75,7 +81,7 @@ console.log(kav.addShift(1, {station: "base",
                              start: Date.parse("Thu, 01 Jan 1970 00:00:00 GMT-0400"),
                              end: Date.parse("Thu, 01 Jan 1970 02:00:00 GMT-0400")}));
 console.log(kav.addShift(1, {station: "sg",
-                             start: Date.parse("Thu, 02 Jan 1970 00:00:00 GMT-0400"),
+                             start: Date.parse("Thu, 02 Jan 1970 04:00:00 GMT-0400"),
                              end: Date.parse("Thu, 02 Jan 1970 02:00:00 GMT-0400")}));
 console.log("%j", kav.getGroup());
 kav.groupSortById();
