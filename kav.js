@@ -13,23 +13,29 @@ var kav = function () {
     return -1;
   };
 
+  var sortShiftByTime = function (person) {
+    person.shift.sort(function (a, b) {
+      return a.end - b.end;
+      }).reverse;
+  };
+
   return {
     getGroup: function () {
       return group;
     },
     addShift: function (id, shift) {
-      if ((shift.start - shift.end) < 0) {
+      if ((shift.end - shift.start) < 0) {
         return {name: "error",
-                message: "start time " + shift.start.toLocalString() +
+                message: "start time " + shift.start +
                          " cannot be later then end time " +
-                         shift.end.toLocalString()};
+                         shift.end};
       };
       var index = indexOfPerson(id);
       if (index !== -1) {
         if (!group.list[index].shift) {
           group.list[index].shift = [];
         }
-        group.list[index].shift.push(shift);
+        group.list[index].shift.unshift(shift);
         return 0;
       } else {
         return {name: "error",
@@ -41,16 +47,19 @@ var kav = function () {
        return a.id - b.id;
        });
     },
+    groupSortByTime: function () {
+     group.list.sort(function (a, b) {
+       return a.shift[0].end - b.shift[0].end;
+       }).reverse;
+    },
     addPerson: function (person) {
       if (!person.id) {
         return {name: "error",
-         message: "person must have id",
-         object: person};
+         message: "person missing id"};
       }
       if (group.ids.indexOf(person.id) !== -1) {
         return {name: "error",
-          message: "id not unique",
-          object: person};
+          message: "id " + person.id + " not unique"};
       }
       group.list.push(person);
       group.ids.push(person.id);
@@ -72,17 +81,3 @@ var kav = function () {
     }
   }
 }();
-
-console.log(kav.addPerson({id:1}));
-console.log(kav.addPerson({id:2}));
-console.log(kav.addPerson({id:12}));
-console.log(kav.addPerson({id:3}));
-console.log(kav.addShift(1, {station: "base",
-                             start: Date.parse("Thu, 01 Jan 1970 00:00:00 GMT-0400"),
-                             end: Date.parse("Thu, 01 Jan 1970 02:00:00 GMT-0400")}));
-console.log(kav.addShift(1, {station: "sg",
-                             start: Date.parse("Thu, 02 Jan 1970 04:00:00 GMT-0400"),
-                             end: Date.parse("Thu, 02 Jan 1970 02:00:00 GMT-0400")}));
-console.log("%j", kav.getGroup());
-kav.groupSortById();
-console.log("%j", kav.getGroup());
