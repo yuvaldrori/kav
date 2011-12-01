@@ -52,6 +52,10 @@ var kav = function () {
        return a.shift[0].end - b.shift[0].end;
        }).reverse;
     },
+    reset: function () {
+      var group = {list: [],
+                    ids: []}
+    },
     addPerson: function (person) {
       if (!person.id) {
         return {name: "error",
