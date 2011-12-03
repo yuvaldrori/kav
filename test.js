@@ -1,17 +1,32 @@
 var testKav = function () {
   var personWithNoId = {};
   var personWithId = {id:1};
+  var anotherPersonWithId = {id:2};
+  var thirdPersonWithId = {id:3};
 
   return {
     testAddPerson: function () {
-      console.log("kav.addperson test");
+      var ret;
+      console.log("kav.addPerson test");
       //
       console.log("add person");
       kav.reset();
-      if (kav.addPerson(personWithId) === 0) {
+      ret = kav.addPerson(personWithId);
+      if (ret === 0) {
         console.log("pass");
       } else {
-        console.log("fail");
+        console.log("fail" + ret);
+      }
+      kav.reset();
+      //
+      console.log("add 2nd person");
+      kav.reset();
+      kav.addPerson(personWithId);
+      ret = kav.addPerson(anotherPersonWithId);
+      if (ret === 0) {
+        console.log("pass");
+      } else {
+        console.log("fail" + ret);
       }
       kav.reset();
       //
@@ -32,7 +47,24 @@ var testKav = function () {
         console.log("fail");
       }
       kav.reset();
+    },
+    testRemovePerson: function () {
+      console.log("kav.removePerson test");
+      //
+      console.log("remove first of 3");
+      kav.reset();
+      kav.addPerson(personWithId);
+      kav.addPerson(anotherPersonWithId);
+      kav.addPerson(thirdPersonWithId);
+      kav.removePerson(1);
+      if (kav.getGroup() === {list: [{id: 2}, {id: 3}],
+                               ids: [2, 3]}) {
+        console.log("pass");
+      } else {
+        console.log("fail" + kav.getGroup());
+      }
     }
   }
 }();
 testKav.testAddPerson();
+testKav.testRemovePerson();
