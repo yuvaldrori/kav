@@ -57,8 +57,11 @@ var testKav = function () {
       kav.addPerson(anotherPersonWithId);
       kav.addPerson(thirdPersonWithId);
       kav.removePerson(1);
-      if (kav.getGroup() === {list: [{id: 2}, {id: 3}],
-                               ids: [2, 3]}) {
+      ret = kav.getGroup();
+      if (ret.list[0].id === 2 &&
+          ret.list[1].id === 3 &&
+          ret.ids[0] === 2 &&
+          ret.ids[1] === 3) {
         console.log("pass");
       } else {
         console.log("fail" + kav.getGroup());
