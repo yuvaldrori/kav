@@ -25,9 +25,9 @@ var kav = function () {
     },
     addShift: function (id, shift) {
       if ((shift.end - shift.start) < 0) {
-        return {name: "error",
-                message: "start time " + shift.start +
-                         " cannot be later then end time " +
+        return {name: 'error',
+                message: 'start time ' + shift.start +
+                         ' cannot be later then end time ' +
                          shift.end};
       };
       var index = indexOfPerson(id);
@@ -38,8 +38,8 @@ var kav = function () {
         group.list[index].shift.unshift(shift);
         return 0;
       } else {
-        return {name: "error",
-          message: "could not find the index for id " + id}
+        return {name: 'error',
+          message: 'could not find the index for id ' + id}
       }
     },
     groupSortById: function () {
@@ -58,12 +58,12 @@ var kav = function () {
     },
     addPerson: function (person) {
       if (!person.id) {
-        return {name: "error",
-         message: "person missing id"};
+        return {name: 'error',
+         message: 'person missing id'};
       }
       if (group.ids.indexOf(person.id) !== -1) {
-        return {name: "error",
-          message: "id " + person.id + " not unique"};
+        return {name: 'error',
+          message: 'id ' + person.id + ' not unique'};
       }
       group.list.push(person);
       group.ids.push(person.id);
@@ -78,8 +78,8 @@ var kav = function () {
           group.ids.splice(index, 1);
         }
       } else {
-        return {name: "error",
-          message: "could not find the index for id " + id}
+        return {name: 'error',
+          message: 'could not find the index for id ' + id}
       }
     }
   }
