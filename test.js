@@ -5,6 +5,17 @@ var testKav = function () {
   var thirdPersonWithId = {id:3};
 
   return {
+    testReset: function () {
+      var ret;
+      console.log("kav.reset test");
+      kav.reset();
+      ret = kav.getGroup();
+      if (ret.list.length === 0 && ret.ids.length === 0) {
+        console.log("pass");
+      } else {
+        console.log("fail");
+      }
+    },
     testAddPerson: function () {
       var ret;
       console.log("kav.addPerson test");
@@ -64,10 +75,46 @@ var testKav = function () {
           ret.ids[1] === 3) {
         console.log("pass");
       } else {
-        console.log("fail" + kav.getGroup());
+        console.log("fail");
       }
+      kav.reset();
+      //
+      console.log("remove second of 3");
+      kav.reset();
+      kav.addPerson(personWithId);
+      kav.addPerson(anotherPersonWithId);
+      kav.addPerson(thirdPersonWithId);
+      kav.removePerson(2);
+      ret = kav.getGroup();
+      if (ret.list[0].id === 1 &&
+          ret.list[1].id === 3 &&
+          ret.ids[0] === 1 &&
+          ret.ids[1] === 3) {
+        console.log("pass");
+      } else {
+        console.log("fail");
+      }
+      kav.reset();
+      //
+      console.log("remove third of 3");
+      kav.reset();
+      kav.addPerson(personWithId);
+      kav.addPerson(anotherPersonWithId);
+      kav.addPerson(thirdPersonWithId);
+      kav.removePerson(3);
+      ret = kav.getGroup();
+      if (ret.list[0].id === 1 &&
+          ret.list[1].id === 2 &&
+          ret.ids[0] === 1 &&
+          ret.ids[1] === 2) {
+        console.log("pass");
+      } else {
+        console.log("fail");
+      }
+      kav.reset();
     }
   }
 }();
+testKav.testReset();
 testKav.testAddPerson();
 testKav.testRemovePerson();

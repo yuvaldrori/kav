@@ -53,8 +53,8 @@ var kav = function () {
        }).reverse;
     },
     reset: function () {
-      var group = {list: [],
-                    ids: []}
+      group = {list: [],
+                ids: []}
     },
     addPerson: function (person) {
       if (!person.id) {
@@ -70,17 +70,16 @@ var kav = function () {
       return 0;
     },
     removePerson: function (id) {
-      var i = 0,
-      j = 0;
-      for (i = 0; i < group.list.length; i = i +1) {
-        if (group.list[i].id === id) {
-          group.list.splice (i, 1);
-          for (j = 0; j < group.ids.length; j = j + 1) {
-            if (group.ids[j] === id) {
-              group.ids.splice(j, 1);
-            }
-          }
+      var index = indexOfPerson(id);
+      if (index !== -1) {
+        group.list.splice(index, 1);
+        index = group.ids.indexOf(id);
+        if (index !== -1) {
+          group.ids.splice(index, 1);
         }
+      } else {
+        return {name: "error",
+          message: "could not find the index for id " + id}
       }
     }
   }
