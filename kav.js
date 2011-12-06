@@ -24,13 +24,26 @@ var kav = function () {
       return group;
     },
     addShift: function (id, shift) {
-      if ((shift.end - shift.start) < 0) {
-        return {name: 'error',
+      var startDate;
+      var endDate;
+      var index;
+      startDate = Date.parse(shift.start);
+      if (isNaN(startDate)) {
+        return {name: 'errorParseStartTime',
+                message: 'start time parse error '+ shift.start};
+      }
+      endDate = Date.parse(shift.end);
+      if (isNaN(endDate)) {
+        return {name: 'errorParseEndTime',
+                message: 'end time parse error ' + shift.end};
+      }
+      if ((endDate - startDate) < 0) {
+        return {name: 'errorEndBeforeStart',
                 message: 'start time ' + shift.start +
                          ' cannot be later then end time ' +
                          shift.end};
       };
-      var index = indexOfPerson(id);
+      index = indexOfPerson(id);
       if (index !== -1) {
         if (!group.list[index].shift) {
           group.list[index].shift = [];
@@ -38,7 +51,7 @@ var kav = function () {
         group.list[index].shift.unshift(shift);
         return 0;
       } else {
-        return {name: 'error',
+        return {name: 'errorNoId',
           message: 'could not find the index for id ' + id}
       }
     },
@@ -58,11 +71,11 @@ var kav = function () {
     },
     addPerson: function (person) {
       if (!person.id) {
-        return {name: 'error',
+        return {name: 'errorMissingId',
          message: 'person missing id'};
       }
       if (group.ids.indexOf(person.id) !== -1) {
-        return {name: 'error',
+        return {name: 'errorIdNotUnique',
           message: 'id ' + person.id + ' not unique'};
       }
       group.list.push(person);
@@ -78,7 +91,7 @@ var kav = function () {
           group.ids.splice(index, 1);
         }
       } else {
-        return {name: 'error',
+        return {name: 'errorNoId',
           message: 'could not find the index for id ' + id}
       }
     }

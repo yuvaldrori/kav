@@ -3,9 +3,21 @@ var testKav = function () {
   var personWithId = {id:1};
   var anotherPersonWithId = {id:2};
   var thirdPersonWithId = {id:3};
+  var badEndBeforeStartShift = {location: 'sg',
+                                start: 'Tue, 6 Dec 2011 10:00:00',
+                                end: 'Tue, 6 Dec 2011 08:00:00'};
+  var badStartDateStringShift = {location: 'sg',
+                                 start: 'ghghs shshs',
+                                 end: 'Tue, 6 Dec 2011 08:00:00'};
+  var badEndDateStringShift = {location: 'sg',
+                               start: 'Tue, 6 Dec 2011 08:00:00',
+                               end: 'sdflskjdkfj'};
   var firstGoodShift = {location: 'sg',
-                        start: '',
-                        end: ''};
+                        start: 'Tue, 6 Dec 2011 08:00:00',
+                        end: 'Tue, 6 Dec 2011 10:00:00'};
+  var secondGoodShift = {location: 'sg',
+                        start: 'Tue, 6 Dec 2011 12:00:00',
+                        end: 'Tue, 6 Dec 2011 14:00:00'};
 
   return {
     testReset: function () {
@@ -46,7 +58,7 @@ var testKav = function () {
       //
       console.log('add person with no id');
       kav.reset();
-      if (kav.addPerson(personWithNoId).message === 'person missing id') {
+      if (kav.addPerson(personWithNoId).name === 'errorMissingId') {
         console.log('pass');
       } else {
         console.log('fail');
@@ -55,7 +67,7 @@ var testKav = function () {
       //
       console.log('add person with non unique id');
       kav.addPerson(personWithId);
-      if (kav.addPerson(personWithId).message === 'id 1 not unique') {
+      if (kav.addPerson(personWithId).name === 'errorIdNotUnique') {
         console.log('pass');
       } else {
         console.log('fail');
@@ -133,6 +145,68 @@ var testKav = function () {
         console.log('fail');
       }
       kav.reset();
+    },
+    testAddShift: function () {
+      var ret;
+      kav.reset();
+      console.log('kav.addShift test');
+      //
+      console.log('bad start time');
+      kav.reset();
+      kav.addPerson(personWithId);
+      ret = kav.addShift(1, badStartDateStringShift);
+      if (ret.name === 'errorParseStartTime') {
+        console.log('pass');
+      } else {
+        console.log('fail');
+      }
+      kav.reset();
+      //
+      console.log('bad end time');
+      kav.reset();
+      kav.addPerson(personWithId);
+      ret = kav.addShift(1, badEndDateStringShift);
+      if (ret.name === 'errorParseEndTime') {
+        console.log('pass');
+      } else {
+        console.log('fail');
+      }
+      kav.reset();
+      //
+      console.log('end before start');
+      kav.reset();
+      kav.addPerson(personWithId);
+      ret = kav.addShift(1, badEndBeforeStartShift);
+      if (ret.name === 'errorEndBeforeStart') {
+        console.log('pass');
+      } else {
+        console.log('fail');
+      }
+      kav.reset();
+      //
+      console.log('no id');
+      kav.reset();
+      kav.addPerson(personWithNoId);
+      ret = kav.addShift(1, firstGoodShift);
+      if (ret.name === 'errorNoId') {
+        console.log('pass');
+      } else {
+        console.log('fail');
+      }
+      kav.reset();
+      //
+      console.log('add first good id');
+      kav.reset();
+      kav.addPerson(personWithId);
+      ret = kav.addShift(1, firstGoodShift);
+      if (kav.getGroup.list[0].shift[0].location === firstGoodShift.location &&
+          kav.getGroup.list[0].shift[0].start === firstGoodShift.start &&
+          kav.getGroup.list[0].shift[0].end === firstGoodShift.end) {
+        console.log('pass');
+      } else {
+        console.log('fail');
+      }
+      kav.reset();
     }
   }
 }();
@@ -140,3 +214,4 @@ testKav.testReset();
 testKav.testAddPerson();
 testKav.testRemovePerson();
 testKav.testGroupSortById();
+testKav.testAddShift();
