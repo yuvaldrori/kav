@@ -199,9 +199,10 @@ var testKav = function () {
       kav.reset();
       kav.addPerson(personWithId);
       ret = kav.addShift(1, firstGoodShift);
-      if (kav.getGroup.list[0].shift[0].location === firstGoodShift.location &&
-          kav.getGroup.list[0].shift[0].start === firstGoodShift.start &&
-          kav.getGroup.list[0].shift[0].end === firstGoodShift.end) {
+      if (ret === 0 &&
+          kav.getGroup().list[0].shift[0].location === firstGoodShift.location &&
+          kav.getGroup().list[0].shift[0].start === firstGoodShift.start &&
+          kav.getGroup().list[0].shift[0].end === firstGoodShift.end) {
         console.log('pass');
       } else {
         console.log('fail');
