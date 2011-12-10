@@ -195,7 +195,7 @@ var testKav = function () {
       }
       kav.reset();
       //
-      console.log('add first good id');
+      console.log('add first good shift');
       kav.reset();
       kav.addPerson(personWithId);
       ret = kav.addShift(1, firstGoodShift);
@@ -203,6 +203,24 @@ var testKav = function () {
           kav.getGroup().list[0].shift[0].location === firstGoodShift.location &&
           kav.getGroup().list[0].shift[0].start === firstGoodShift.start &&
           kav.getGroup().list[0].shift[0].end === firstGoodShift.end) {
+        console.log('pass');
+      } else {
+        console.log('fail');
+      }
+      kav.reset();
+      //
+      console.log('add second good shift');
+      kav.reset();
+      kav.addPerson(personWithId);
+      kav.addShift(1, firstGoodShift);
+      ret = kav.addShift(1, secondGoodShift);
+      if (ret === 0 &&
+          kav.getGroup().list[0].shift[1].location === firstGoodShift.location &&
+          kav.getGroup().list[0].shift[1].start === firstGoodShift.start &&
+          kav.getGroup().list[0].shift[1].end === firstGoodShift.end &&
+          kav.getGroup().list[0].shift[0].location === secondGoodShift.location &&
+          kav.getGroup().list[0].shift[0].start === secondGoodShift.start &&
+          kav.getGroup().list[0].shift[0].end === secondGoodShift.end) {
         console.log('pass');
       } else {
         console.log('fail');
