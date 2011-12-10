@@ -62,7 +62,7 @@ var kav = function () {
     },
     groupSortByTime: function () {
      group.list.sort(function (a, b) {
-       return a.shift[0].end - b.shift[0].end;
+       return Date.parse(a.shift[0].end) - Date.parse(b.shift[0].end);
        }).reverse;
     },
     reset: function () {
