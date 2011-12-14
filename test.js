@@ -22,58 +22,59 @@ var testKav = function () {
       kav.reset();
       ret = kav.getGroup();
       if (ret.list.length === 0 && ret.ids.length === 0) {
-        console.log('pass');
+        return 0;
       } else {
         console.log('fail');
+        return -1;
       }
     },
     testAddPerson: function () {
       var ret;
-      console.log('kav.addPerson test');
-      //
-      console.log('add person');
+      console.log('kav.addPerson - add person');
       kav.reset();
       ret = kav.addPerson({id:1});
       if (ret === 0) {
-        console.log('pass');
+        return 0;
       } else {
-        console.log('fail' + ret);
+        return -1;
       }
-      kav.reset();
-      //
-      console.log('add 2nd person');
+    },
+    testAddSecondPerson: function () {
+      var ret;
+      console.log('kav.addPerson - add 2nd person');
       kav.reset();
       kav.addPerson({id:1});
       ret = kav.addPerson({id:2});
       if (ret === 0) {
-        console.log('pass');
+        return 0;
       } else {
-        console.log('fail' + ret);
+        return -1;
       }
-      kav.reset();
-      //
-      console.log('add person with no id');
+    },
+    testAddPersonNoId: function () {
+      var ret;
+      console.log('kav.addPerson - add person with no id');
       kav.reset();
       if (kav.addPerson({}).name === 'errorMissingId') {
-        console.log('pass');
+        return 0;
       } else {
-        console.log('fail');
+        return -1;
       }
+    },
+    testAddPersonIdNotUnique: function () {
+      var ret;
+      console.log('kav.addPerson - add person with non unique id');
       kav.reset();
-      //
-      console.log('add person with non unique id');
       kav.addPerson({id:1});
       if (kav.addPerson({id:1}).name === 'errorIdNotUnique') {
-        console.log('pass');
+        return 0;
       } else {
-        console.log('fail');
+        return -1;
       }
-      kav.reset();
     },
-    testRemovePerson: function () {
-      console.log('kav.removePerson test');
-      //
-      console.log('remove first of 3');
+    testRemoveFirstOfThreePerson: function () {
+      var ret;
+      console.log('kav.removePerson - remove first of 3');
       kav.reset();
       kav.addPerson({id:1});
       kav.addPerson({id:2});
@@ -84,13 +85,14 @@ var testKav = function () {
           ret.list[1].id === 3 &&
           ret.ids[0] === 2 &&
           ret.ids[1] === 3) {
-        console.log('pass');
+        return 0;
       } else {
-        console.log('fail');
+        return -1;
       }
-      kav.reset();
-      //
-      console.log('remove second of 3');
+    },
+    testRemoveSecondOfThreePerson: function () {
+      var ret;
+      console.log('kav.removePerson - remove second of 3');
       kav.reset();
       kav.addPerson({id:1});
       kav.addPerson({id:2});
@@ -101,12 +103,13 @@ var testKav = function () {
           ret.list[1].id === 3 &&
           ret.ids[0] === 1 &&
           ret.ids[1] === 3) {
-        console.log('pass');
+        return 0;
       } else {
-        console.log('fail');
+        return -1;
       }
-      kav.reset();
-      //
+    },
+    testRemoveThirdOfThreePerson: function () {
+      var ret;
       console.log('remove third of 3');
       kav.reset();
       kav.addPerson({id:1});
@@ -118,16 +121,15 @@ var testKav = function () {
           ret.list[1].id === 2 &&
           ret.ids[0] === 1 &&
           ret.ids[1] === 2) {
-        console.log('pass');
+        return 0;
       } else {
-        console.log('fail');
+        return -1;
       }
-      kav.reset();
     },
     testGroupSortById: function () {
       var ret;
-      kav.reset();
       console.log('kav.groupSortById test');
+      kav.reset();
       kav.addPerson({id:3});
       kav.addPerson({id:1});
       kav.addPerson({id:2});
@@ -136,62 +138,62 @@ var testKav = function () {
       if (ret.list[0].id === 1 &&
           ret.list[1].id === 2 &&
           ret.list[2].id === 3) {
-        console.log('pass');
+        return 0;
       } else {
-        console.log('fail');
+        return -1;
       }
-      kav.reset();
     },
-    testAddShift: function () {
+    testAddShiftBadStartTime: function () {
       var ret;
-      kav.reset();
-      console.log('kav.addShift test');
-      //
-      console.log('bad start time');
+      console.log('kav.addShift - bad start time');
       kav.reset();
       kav.addPerson({id:1});
       ret = kav.addShift(1, badStartDateStringShift);
       if (ret.name === 'errorParseStartTime') {
-        console.log('pass');
+        return 0;
       } else {
-        console.log('fail');
+        return -1;
       }
-      kav.reset();
-      //
-      console.log('bad end time');
+    },
+    testAddShiftBadEndTime: function () {
+      var ret;
+      console.log('kav.addShift - bad end time');
       kav.reset();
       kav.addPerson({id:1});
       ret = kav.addShift(1, badEndDateStringShift);
       if (ret.name === 'errorParseEndTime') {
-        console.log('pass');
+        return 0;
       } else {
-        console.log('fail');
+        return -1;
       }
-      kav.reset();
-      //
-      console.log('end before start');
+    },
+    testAddShiftEndBeforeStart: function () {
+      var ret;
+      console.log('kav.addShift - end before start');
       kav.reset();
       kav.addPerson({id:1});
       ret = kav.addShift(1, badEndBeforeStartShift);
       if (ret.name === 'errorEndBeforeStart') {
-        console.log('pass');
+        return 0;
       } else {
-        console.log('fail');
+        return -1;
       }
-      kav.reset();
-      //
-      console.log('no id');
+    },
+    testAddShiftNoId: function () {
+      var ret;
+      console.log('kav.addShift - no id');
       kav.reset();
       kav.addPerson({});
       ret = kav.addShift(1, firstGoodShift);
       if (ret.name === 'errorNoId') {
-        console.log('pass');
+        return 0;
       } else {
-        console.log('fail');
+        return -1;
       }
-      kav.reset();
-      //
-      console.log('add first good shift');
+    },
+    testAddShift: function () {
+      var ret;
+      console.log('kav.addShift - add first good shift');
       kav.reset();
       kav.addPerson({id:1});
       ret = kav.addShift(1, firstGoodShift);
@@ -199,13 +201,14 @@ var testKav = function () {
           kav.getGroup().list[0].shift[0].location === firstGoodShift.location &&
           kav.getGroup().list[0].shift[0].start === firstGoodShift.start &&
           kav.getGroup().list[0].shift[0].end === firstGoodShift.end) {
-        console.log('pass');
+        return 0;
       } else {
-        console.log('fail');
+        return -1;
       }
-      kav.reset();
-      //
-      console.log('add second good shift');
+    },
+    testAddSecondShift: function () {
+      var ret;
+      console.log('kav.addShift - add second good shift');
       kav.reset();
       kav.addPerson({id:1});
       kav.addShift(1, firstGoodShift);
@@ -217,13 +220,14 @@ var testKav = function () {
           kav.getGroup().list[0].shift[0].location === secondGoodShift.location &&
           kav.getGroup().list[0].shift[0].start === secondGoodShift.start &&
           kav.getGroup().list[0].shift[0].end === secondGoodShift.end) {
-        console.log('pass');
+        return 0;
       } else {
-        console.log('fail');
+        return -1;
       }
-      kav.reset();
-      //
-      console.log('add a good shift to each person');
+    },
+    testAddShiftForEach: function () {
+      var ret;
+      console.log('kav.addShift - add a good shift to each person');
       kav.reset();
       kav.addPerson({id:1});
       kav.addPerson({id:2});
@@ -235,11 +239,10 @@ var testKav = function () {
           kav.getGroup().list[1].shift[0].location === secondGoodShift.location &&
           kav.getGroup().list[1].shift[0].start === secondGoodShift.start &&
           kav.getGroup().list[1].shift[0].end === secondGoodShift.end) {
-        console.log('pass');
+        return 0;
       } else {
-        console.log('fail');
+        return -1;
       }
-      kav.reset();
     },
     testGroupSortByTime: function () {
       console.log('kav.groupSortByTime test');
@@ -251,17 +254,11 @@ var testKav = function () {
       kav.groupSortByTime();
       if (kav.getGroup().list[0].id === 2 &&
           kav.getGroup().list[1].id === 1) {
-        console.log('pass');
+        return 0;
       } else {
-        console.log('fail');
+        return -1;
       }
-      kav.reset();
     }
   }
 }();
-testKav.testReset();
-testKav.testAddPerson();
-testKav.testRemovePerson();
-testKav.testGroupSortById();
-testKav.testAddShift();
-testKav.testGroupSortByTime();
+Array.forEach
