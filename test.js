@@ -261,4 +261,15 @@ var testKav = function () {
     }
   }
 }();
-Array.forEach
+
+var doTest = function (element, index, array) {
+  if (typeof testKav[element] === 'function') {
+    if (testKav[element]() === 0) {
+      console.log('pass');
+    } else {
+      console.log('fail');
+    }
+  }
+};
+
+Object.getOwnPropertyNames(testKav).forEach(doTest);
