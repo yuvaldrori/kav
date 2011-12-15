@@ -1,3 +1,5 @@
+var kav = require('./kav.js');
+
 var testKav = function () {
   var badEndBeforeStartShift = {location: 'sg',
                                 start: 'Tue, 6 Dec 2011 10:00:00',
